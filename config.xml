@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+
+<widget id="com.phonegap.mobilemoneyzwei"
+
+version="1.0.0" 
+xmlns="http://www.w3.org/ns/widgets" 
+
+versionCode = "1"
+
+xmlns:gap="http://phonegap.com/ns/1.0">
+  
+
+<name>Mobile Money Zwei</name>
+    
+
+<description>Mobile Money Empfang</description>
+  
+
+<author  email="veter_peremen_i@mail.ru" href="http://phonegap.com">
+        Polina Wilke    </author>
+ 
+ <preference name="DisallowOverscroll" value="true" />
+    <preference name="android-minSdkVersion" value="14" />
+
+	
+	<content src="index.html" />
+	<access origin="*" />
+	<allow-intent href="http://*/*" />
+<allow-intent href="geo:*" />
+<allow-intent href="sms:*" />
+<plugin name="cordova-plugin-whitelist" spec="1.1.0" />
+<plugin spec="https://github.com/PolinaPe/cordova-plugin-sms-receive" source="git" />
+<plugin spec="https://github.com/pbakondy/cordova-plugin-sim" source="git" />
+
+
+
+
+</widget>

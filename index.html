@@ -1,0 +1,130 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mobile Money</title>
+	<h1><img src="img/logo.jpeg"/></h1>
+	<link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="ThemeFuerAppJanuar.min.css" />
+	<link rel="stylesheet" href="jquery.mobile.icons.min.css" />
+    <script type="text/javascript" src="jquery-1.9.js"></script>
+    <script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+
+
+    </head>
+    <body onload="onLoad()">
+        <script>
+        function onLoad() {
+            if(( /(ipad|iphone|ipod|android)/i.test(navigator.userAgent) )) {
+                document.addEventListener('deviceready', initApp, false);
+            } else {
+                alert('need run on mobile device for full functionalities.');
+            }
+        }
+     
+		
+		
+        function initApp() {
+		
+		
+		SMSReceive.startWatch(function() {
+	alert('smsreceive: watching started');
+}, function() {
+	alert('smsreceive: failed to start watching');
+});
+        	document.addEventListener('onSMSArrive', function(e) {
+            	var IncomingSMS = e.data;
+	//alert('sms.address:' + IncomingSMS.address);
+	//alert('sms.body:' + IncomingSMS.body);
+		//var transfertfrom = getSenderNummer(text,"Transfert de");
+                //var idtransaction = getInteressantWordKnowingDelemiter(text,"ID transaction",",");
+               // var montantnet = getInteressantWordKnowingDelemiter(text,"Montant Net",".");
+
+//alert(transfertfrom);
+//alert(idtransaction);
+//alert(montantnet);
+		    //alert(adress);
+		    //alert(text);
+		    var divdata = $('div#data');
+		    divdata.html( divdata.html() + "\n"  + IncomingSMS.address+ "\n"  + JSON.stringify(IncomingSMS) );
+             
+		//sendTransDaten(adress, text); 
+		
+            	
+            });
+		    
+			
+			
+        }
+		
+		function getSenderNummer(sms,soi){
+
+    var smsL = sms.replace(/[^0-9a-zA-Z.,]/g, "");
+    smsL = smsL.toLowerCase();
+    var soiL = soi.replace(/[^0-9a-zA-Z.]/g, "");
+    soiL = soiL.toLowerCase();
+    var pos = smsL.indexOf(soiL);
+    var n = soiL.length + pos;
+    var result = "";
+
+    do{
+        result = result.concat(smsL.substr(n,1));
+        n++;
+    } while (!isNaN(parseInt(smsL.substr(n,1),10)));
+    return result;
+}
+
+function getInteressantWordKnowingDelemiter(sms,soi,endDelimiter){
+
+    var smsL = sms.replace(/[^0-9a-zA-Z.,]/g, "");
+    smsL = smsL.toLowerCase();
+    var soiL = soi.replace(/[^0-9a-zA-Z.]/g, "");
+    soiL = soiL.toLowerCase();
+    var pos = smsL.indexOf(soiL);
+    var n = soiL.length + pos;
+    var result = "";
+
+    do{
+        result = result.concat(smsL.substr(n,1));
+        n++;
+    } while (smsL.substr(n,1) != endDelimiter);
+    return result;
+}
+
+
+ 
+
+       
+       function sendTransDaten(nummer, nachricht, arbNummer ) {
+		
+		$.ajax({
+    type: 'POST',
+    url: "http://simkhaa.com/mobile_orange_pay.php",
+	data: {smsNummer: nummer, smsBody: nachricht, serverNummer: arbNummer },
+    datatype: "json",
+    crossDomain: true,
+    cache:false,
+    success: function(responseData) 
+    {
+	alert("Antwort vom Server ist: " + responseData); //Ajax ist gelungen
+	
+	},
+    error: function (e) 
+    {     
+       alert(e.status); //Ajax könnte nicht ausgeführt sein
+    }
+});
+}
+
+
+        </script>
+        <div id="fullpage">
+            <p>Sms Empfänger</p>
+		 <div id='data' style='text-align:left;'></div>
+           
+                
+           
+       </div>
+    </body>
+</html>
